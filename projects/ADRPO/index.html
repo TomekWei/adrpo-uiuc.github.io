@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description"
+      content="Adaptive Divergence Regularized Policy Optimization for Fine-tuning Generative Models">
+    <meta name="keywords"
+      content="ADRPO, Reinforcement Learning, Flow Matching, LLM Fine-tuning, Text-to-Image">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adaptive Divergence Regularized Policy Optimization for Fine-tuning Generative Models</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async
+      src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+      rel="stylesheet">
+
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/images/favicon.ico">
+
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/bulma-carousel.min.js"></script>
+    <script src="./static/js/bulma-slider.min.js"></script>
+    <script src="./static/js/index.js"></script>
+  </head>
+  <body>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <h1 class="title is-1 publication-title">Adaptive Divergence Regularized Policy Optimization for Fine-tuning Generative Models</h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">
+                  <a href="#">Jiajun Fan</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="#">Tong Wei</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="#">Chaoran Cheng</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="#">Yuxin Chen</a><sup>1</sup>,
+                </span>
+                <span class="author-block">
+                  <a href="https://www.mit.edu/~geliu/">Ge Liu</a><sup>1,†</sup>,
+                </span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <span class="author-block"><sup>1</sup>University of Illinois Urbana-Champaign</span>
+                <br>
+                <span class="author-block"><sup>†</sup>Corresponding Author</span>
+                <br>
+                <span class="author-block" style="font-size: 20px;"><b>NeurIPS 2025</b></span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <!-- PDF Link -->
+                  <span class="link-block">
+                    <a href="#"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
+                  </span>
+                  <!-- Code Link -->
+                  <span class="link-block">
+                    <a href="#"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fab fa-github"></i>
+                      </span>
+                      <span>Code (Coming Soon)</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Abstract -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+
+              <p>
+                Balancing exploration and exploitation during reinforcement learning fine-tuning of generative models presents a critical challenge, as existing approaches rely on fixed divergence regularization that creates an inherent dilemma: strong regularization preserves model capabilities but limits reward optimization, while weak regularization enables greater alignment but risks instability or reward hacking. We introduce Adaptive Divergence Regularized Policy Optimization (ADRPO), which automatically adjusts regularization strength based on advantage estimates—reducing regularization for high-value samples while applying stronger regularization to poor samples, enabling policies to navigate between exploration and aggressive exploitation according to data quality. Our implementation with Wasserstein-2 regularization for flow matching generative models achieves remarkable results on text-to-image generation, achieving better semantic alignment and diversity than offline methods like DPO and online methods with fixed regularization like ORW-CFM-W2. ADRPO enables a 2B parameter SD3 model to surpass much larger models with 4.8B and 12B parameters in attribute binding, semantic consistency, artistic style transfer, and compositional control while maintaining generation diversity. ADRPO generalizes to KL-regularized fine-tuning of both text-only LLMs and multi-modal reasoning models, enhancing existing online RL methods like GRPO while requiring no additional networks or complex architectural changes. In LLM fine-tuning, ADRPO demonstrates an emergent ability to escape local optima through active exploration, while in multi-modal audio reasoning, it outperforms GRPO through superior step-by-step reasoning, enabling a 7B model to outperform substantially larger commercial models including Gemini 2.5 Pro and GPT-4o Audio, offering an effective plug-and-play solution to the exploration-exploitation challenge across diverse generative architectures and modalities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Method -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Method</h2>
+            
+            <!-- Interpolating. -->
+            <h3 class="title is-4">Method</h3>
+            
+            <div class="content has-text-justified">
+              <p>
+                <b>1. Standard RLHF Objective (Fixed β)</b><br>
+                The conventional approach uses a fixed coefficient β to balance reward and divergence.
+              </p>
+            </div>
+            
+            <div class="content has-text-centered">
+              <p style="font-size: 1.1em; margin: 20px 0;">
+                <i>J</i>(θ) = 𝔼<sub>x∼π<sub>θ</sub>,c∼p(c)</sub>[<i>R</i>(x, c)] − β · <i>D</i>(π<sub>θ</sub>, π<sub>ref</sub>)
+              </p>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>2. ADRPO General Objective (Adaptive β)</b><br>
+                Our method replaces the fixed β with an adaptive term based on the advantage A.
+              </p>
+            </div>
+            
+            <div class="content has-text-centered">
+              <p style="font-size: 1.1em; margin: 20px 0;">
+                ℒ<sub>ADRPO</sub>(θ) = ℒ<sub>RL</sub>(θ) + (β<sub>0</sub> − <i>A</i>) · ℒ<sub><i>D</i></sub>(θ)
+              </p>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>3. ADRPO for Flow Matching (W₂ Regularization)</b><br>
+                We apply ADRPO to flow matching by introducing an advantage-weighted policy loss and adaptive W₂ regularization.
+              </p>
+            </div>
+            
+            <div class="content has-text-centered">
+              <p style="font-size: 1.0em; margin: 20px 0;">
+                ℒ<sub>ADRPO−FM</sub>(θ) = 𝔼[<span style="color: #3273dc;"><i>A</i>(x<sub>1</sub>, c) · |v<sub>θ</sub>(x<sub>t</sub>, t, c) − u<sub>t</sub>|²</span> + <span style="color: #48c774;">(β<sub>0</sub> − <i>A</i>(x<sub>1</sub>, c)) · |v<sub>θ</sub>(x<sub>t</sub>, t, c) − v<sub>ref</sub>(x<sub>t</sub>, t, c)|²</span>]
+              </p>
+              <p style="font-size: 0.9em; margin: 10px 0;">
+                <span style="color: #3273dc; margin-right: 100px;">Advantage-Weighted RL Loss</span>
+                <span style="color: #48c774;">Adaptive W₂ Regularization</span>
+              </p>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>4. ADRPO for LLMs (KL Regularization)</b><br>
+                The framework seamlessly applies to LLMs by modifying the KL-regularized objective (e.g., in GRPO).
+              </p>
+            </div>
+            
+            <div class="content has-text-centered">
+              <p style="font-size: 1.1em; margin: 20px 0;">
+                ℒ<sub>ADRPO−GRPO</sub>(θ) = ℒ<sub>PG</sub>(θ) + (β<sub>0</sub> − <i>A</i><sub>GRPO</sub>) · 𝒟<sub>KL</sub>(π<sub>θ</sub>||π<sub>ref</sub>)
+              </p>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>5. Why ADRPO Works</b><br>
+                ADRPO transforms static regularization into a dynamic function that adapts to policy evolution, achieving:
+              </p>
+              <ul>
+                <li>Superior Pareto frontier in reward-diversity trade-off</li>
+                <li>Automatic exploration-exploitation balance at sample level</li>
+                <li>Cross-domain applicability with minimal overhead</li>
+              </ul>
+            </div>
+            <!-- Add your pipeline image here -->
+            <!-- <div class="content has-text-centered">
+              <img src="./static/images/adrpo_pipeline.png" width="85%">
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experiments -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Experiments</h2>
+            <!-- ####### -->
+             <h3 class="title is-4">Text-to-Image Generation Qualitative Analysis</h3>
+            
+            <h4 class="title is-5">Comparison with Large FM Generative Models</h4>
+            <div class="content has-text-justified">
+              <p>
+                Our ADRPO fine-tuned SD3 model (2B parameters) significantly
+                outperforms much larger models like FLUX.1 Dev (12B) and
+                SANA-1.5 (4.8B). This challenges the conventional wisdom that
+                parameter scaling is the primary path to performance
+                improvements. Our method excels in areas where larger models
+                struggle: for artistic style transfer ("Jacques-Louis David
+                style big ben"), complex compositions ("Van Gogh style
+                astronaut"), and attribute binding ("green apple and black
+                backpack"), ADRPO maintains both style accuracy and
+                compositional integrity while larger models introduce visual
+                artifacts despite their 2-6x parameter counts. These results
+                demonstrate that adaptive regularization can enable smaller
+                models to match or exceed much larger models' capabilities.
+              </p>
+            </div>
+
+            <div class="content has-text-centered">
+              <img src="./static/images/Compare_Other.png" width="100%">
+              <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
+                <b>Figure 1: Qualitative Comparison with Large FM Generative Models.</b>
+                Our ADRPO demonstrates superior performance in
+                <span style="color: #a5a5cf;">Artistic Style Rendering</span>,
+                <span style="color: #6bbded;">Attribute Binding</span>,
+                <span style="color: #d29e9d;">Coloring</span> and
+                <span style="color: #829472;">Counting</span>.
+              </p>
+            </div>
+
+            <h4 class="title is-5">Comparison with Other RL Fine-tuning Methods</h4>
+            <div class="content has-text-justified">
+              <p>
+                ADRPO demonstrates clear superiority over existing reinforcement
+                learning fine-tuning approaches. While DPO preserves diversity
+                at the cost of semantic alignment and ORW-CFM-W2 improves
+                alignment but sacrifices diversity, ADRPO achieves excellence in
+                both dimensions through advantage-guided regularization. This is
+                evident across text rendering ("Diffusion" storefront),
+                attribute binding (zebra positioning), coloring (black banana),
+                and style transfer tasks, where our method consistently delivers
+                superior compositional accuracy. By dynamically modulating
+                regularization strength—increasing constraints for uncertain
+                samples while allowing greater divergence for reliable
+                ones—ADRPO effectively resolves the exploration-exploitation
+                dilemma that static approaches cannot address.
+              </p>
+            </div>
+
+
+            <div class="content has-text-centered">
+              <img src="./static/images/Compare_RLHF.png" width="80%">
+              <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
+                <b>Figure 2: Qualitative Comparison with Other RL Fine-tuning Methods.</b>
+                Our ADRPO demonstrates superior performance in
+                <span style="color: #a5a5cf;">Artistic Style Rendering</span>,
+                <span style="color: #bf9030;">Text Rendering</span>,
+                <span style="color: #6bbded;">Attribute Binding</span>,
+                <span style="color: #d29e9d;">Coloring</span>,
+                <span style="color: #829472;">Counting</span> and
+                <span style="color: #ea8573;">Position</span>.
+              </p>
+            </div>
+
+            <!-- <h3 class="title is-4">Text-to-Image Generation</h3>
+            <div class="content has-text-justified">
+              <p>
+                We evaluated ADRPO on SD3 (2B parameters) using prompts from DrawBench, testing color attribute binding, compositional reasoning, object counting, spatial relationships, text rendering, and artistic style transfer.
+              </p>
+              <p>
+                <b>Key Results:</b> ADRPO achieves the best performance across all metrics including ClipScore, ClipDiversity, Aesthetic score, and human preference metrics (BLIPScore, ImageReward, PicScore). Remarkably, our 2B parameter model outperforms both FLUX.1-Dev (12B) and SANA-1.5 (4.8B), demonstrating that optimization strategy can be more consequential than model scale.
+              </p>
+            </div> -->
+
+            <!-- Add your comparison images here -->
+            <!-- <div class="content has-text-centered">
+              <img src="./static/images/text_to_image_comparison.png" width="90%">
+            </div> -->
+            <!-- ####### -->
+             
+            <!-- <h3 class="title is-4">LLM Fine-tuning: Emergent Exploration</h3>
+            <div class="content has-text-justified">
+              <p>
+                We fine-tuned Qwen2 and Qwen3 models using ADRPO integrated with GRPO. The results revealed a surprising emergent behavior: ADRPO exhibits an intelligent three-phase optimization trajectory.
+              </p>
+              <p>
+                <b>Phase 1:</b> Initial exploration in lower entropy regions<br>
+                <b>Phase 2:</b> Active increase in entropy to escape local optima<br>
+                <b>Phase 3:</b> Convergence to high-reward solutions
+              </p>
+              <p>
+                This sophisticated behavior—reminiscent of simulated annealing—emerged organically from our advantage-guided mechanism without explicit programming, resulting in <b>5× higher reward than GRPO</b> in final checkpoints.
+              </p>
+            </div>
+
+            <h3 class="title is-4">Multi-Modal Audio Reasoning</h3>
+            <div class="content has-text-justified">
+              <p>
+                We fine-tuned Qwen2.5-Omni-7B on audio-visual question answering tasks (AVQA dataset) and evaluated on the MMAU benchmark. This domain requires temporal sequence understanding and acoustic pattern recognition.
+              </p>
+              <p>
+                <b>Results:</b> ADRPO achieves <b>76.0% accuracy</b>, outperforming all baselines including:
+              </p>
+              <ul>
+                <li>Base model (68.6%)</li>
+                <li>GRPO baseline (74.2%)</li>
+                <li>Gemini 2.5 Pro (71.6%)</li>
+                <li>GPT-4o Audio (62.5%)</li>
+              </ul>
+              <p>
+                This demonstrates ADRPO's ability to enable superior step-by-step reasoning on complex temporal and contextual tasks through more effective exploration-exploitation balance.
+              </p>
+            </div> -->
+            <h3 class="title is-4">Exploration-Exploitation Trade-off in Policy Optimization</h3>
+            <div class="content has-text-justified">
+              <p>
+                We applied ADRPO to fine-tune Qwen2 (0.5B) and Qwen3 (0.6B)
+                models using RM-Gemma-2B as the reward model, evaluated on the
+                RLHFlow/test_generation_2k dataset.
+              </p>
+            </div>
+
+              <div class="content has-text-centered">
+              <img src="./static/images/reward_vs_diversity_combined.png" width="100%">
+              <img src="./static/images/reward_vs_kl_combined.png" width="100%">
+              <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
+                <b>Figure 3: Reward-Diversity/Divergence Trade-off.</b> Left: policy optimization trajectories (using a same seed) of different methods throughout training, with transparency indicating progression from early (transparent) to convergent (solid) to final (star) checkpoints. Each point is a learned policy from different iterations. Center and right: final reward and diversity/divergence across methods.
+              </p>
+            </div>
+            <!-- 图片位置: LLM Exploration-Exploitation Trade-off -->
+            <!-- <div class="content has-text-centered">
+              <img src="./static/images/llm_exploration_tradeoff.png" width="90%">
+            </div> -->
+            <div class="columns is-centered">
+              <div class="column">
+                <div class="content has-text-justified">
+                  <p>
+                    <b>Reward Hacking Mitigation.</b> The trajectories reveal
+                    distinct vulnerability patterns. While DPO maintains
+                    diversity but plateaus in reward optimization, ORW-CFM-W2
+                    aggressively pursues reward but exhibits significant
+                    diversity collapse, resulting in template-like generations.
+                    ADRPO achieves the highest reward without sacrificing
+                    diversity through advantage-guided regularization, delivering
+                    superior generations with precise attribute binding and high
+                    visual quality.
+                  </p>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="content has-text-justified">
+                  <p>
+                    <b>Exploration-Exploitation Balance.</b> The trajectory
+                    visualization captures each method's navigation of the
+                    landscape. While DPO makes modest improvements before
+                    plateauing and ORW-CFM-W2 follows an exploitation path that
+                    compromises diversity, ADRPO consistently expands the Pareto
+                    frontier. This superior balancing stems from our adaptive
+                    mechanism making sample-specific regularization decisions.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>Divergence Control.</b> ADRPO maintains minimal W₂ divergence
+                while maximizing reward, demonstrating effective control over
+                policy deviation. This translates to generations that preserve
+                the base model's capabilities while achieving superior alignment
+                with reward objectives—a combination neither competing method
+                attains.
+              </p>
+            </div>
+            
+          <h3 class="title is-5">Application to Fine-tuning LLMs</h3>
+            <div class="content has-text-justified">
+              <p>
+                We applied ADRPO to LLM fine-tuning with Qwen2 (0.5B) and Qwen3
+                (0.6B) models using RM-Gemma-2B as the reward model, evaluated
+                on RLHFlow/test_generation_2k dataset.
+              </p>
+            </div>
+
+
+            <div class="content has-text-centered">
+              <img src="./static/images/reward_vs_entropy_combined.png" width="90%">
+              <img src="./static/images/qwen3_reward_vs_entropy_combined.png" width="90%">
+              <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
+                <b>Figure: Exploration-Exploitation Trade-off in Fine-tuning LLMs.</b>
+                Left: policy optimization trajectories in reward-entropy space for
+                ADRPO and GRPO across Qwen2 (top) and Qwen3 (bottom) models, with
+                transparency indicating progression from early to final checkpoints.
+                Center and right: Final performance of different methods.
+              </p>
+            </div>
+
+            <div class="columns is-centered">
+              <div class="column">
+                <div class="content has-text-justified">
+                  <p>
+                    <b>Superior Exploration-Exploitation Control.</b> The
+                    trajectories reveal distinct patterns between methods. While
+                    GRPO maintains high entropy but struggles to find high-reward
+                    regions, ADRPO implements strategic exploration that
+                    efficiently navigates the landscape. For Qwen3, ADRPO first
+                    explores lower entropy regions, then actively increases
+                    entropy to escape local optima, before converging to a final
+                    checkpoint with 5× higher reward than GRPO.
+                  </p>
+                </div>
+              </div>
+
+              <div class="column">
+                <div class="content has-text-justified">
+                  <p>
+                    <b>Preventing Model Collapse.</b> ADRPO demonstrates
+                    superior resistance to model collapse during extended
+                    training. GRPO's performance tends to plateau or deteriorate,
+                    with later checkpoints often showing lower rewards—a common
+                    failure mode of fixed-regularization methods. ADRPO shows
+                    consistent improvement by dynamically adjusting regularization
+                    based on advantage estimates, eliminating the need for careful
+                    early stopping.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                <b>Cross-Architecture Generalizability.</b> The consistent
+                superior performance across both flow matching models and
+                different LLM architectures confirms that ADRPO addresses
+                fundamental limitations in reinforcement learning fine-tuning.
+                By adapting regularization strength to sample-specific advantage
+                estimates, our method provides a generalizable solution to the
+                exploration-exploitation dilemma that effectively transfers
+                between domains.
+              </p>
+            </div>
+
+          <h3 class="title is-5">Extension to Multi-Modal Audio Reasoning</h3>
+            <div class="content has-text-justified">
+              <p>
+                To validate ADRPO's generalizability beyond text-to-image
+                generation and text-only LLMs, we fine-tuned Qwen2.5-Omni-7B on
+                audio reasoning tasks using the AVQA dataset, evaluated on the
+                MMAU benchmark. This domain requires temporal sequence
+                understanding and acoustic pattern recognition—capabilities
+                distinct from text or visual generation.
+              </p>
+            </div>
+
+            <div class="content has-text-centered">
+              <table class="table is-bordered is-striped is-hoverable" style="margin: 20px auto; max-width: 700px;">
+                <caption style="caption-side: top; margin-bottom: 10px; font-weight: bold;">
+                  Multi-modal audio reasoning results on MMAU benchmark
+                </caption>
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Sound (%)</th>
+                    <th>Music (%)</th>
+                    <th>Speech (%)</th>
+                    <th>Total (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Qwen2.5-Omni (base)</td>
+                    <td>72.37</td>
+                    <td>64.37</td>
+                    <td>69.07</td>
+                    <td>68.6</td>
+                  </tr>
+                  <tr>
+                    <td>GRPO</td>
+                    <td>77.18</td>
+                    <td>70.66</td>
+                    <td>74.77</td>
+                    <td>74.2</td>
+                  </tr>
+                  <tr>
+                    <td>Gemini 2.5 Pro</td>
+                    <td>75.08</td>
+                    <td>68.26</td>
+                    <td>71.47</td>
+                    <td>71.6</td>
+                  </tr>
+                  <tr>
+                    <td>GPT-4o Audio</td>
+                    <td>64.56</td>
+                    <td>56.29</td>
+                    <td>66.67</td>
+                    <td>62.5</td>
+                  </tr>
+                  <tr style="background-color: #e8f4f8; font-weight: bold;">
+                    <td><strong>ADRPO (Ours)</strong></td>
+                    <td><strong>81.98</strong></td>
+                    <td><strong>70.06</strong></td>
+                    <td><strong>75.98</strong></td>
+                    <td><strong>76.0</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="content has-text-justified">
+              <p>
+                ADRPO achieves <b>76.0% accuracy</b>, outperforming all
+                baselines and enabling a 7B model to surpass substantially
+                larger commercial models including Gemini 2.5 Pro and GPT-4o
+                Audio through more effective exploration-exploitation balance.
+                The results demonstrate ADRPO's ability to enable superior
+                step-by-step reasoning on complex temporal and contextual tasks,
+                confirming its effectiveness across continuous generation,
+                discrete sequences, and multi-modal reasoning.
+              </p>
+            </div>
+
+            <!-- <h3 class="title is-4">Extension to Multi-Modal Audio Reasoning</h3>
+            <div class="content has-text-justified">
+              <p>
+                To validate ADRPO's generalizability beyond text-to-image
+                generation and text-only LLMs, we fine-tuned Qwen2.5-Omni-7B on
+                audio reasoning tasks using the AVQA dataset, evaluated on the
+                MMAU benchmark. This domain requires temporal sequence
+                understanding and acoustic pattern recognition—capabilities
+                distinct from text or visual generation.
+              </p>
+              <p>
+                Our method achieves <b>76.0% accuracy</b>, outperforming all
+                baselines and enabling a 7B model to surpass substantially larger
+                systems through more effective exploration-exploitation balance:
+              </p>
+              <ul>
+                <li>Base model (Qwen2.5-Omni-7B): 68.6%</li>
+                <li>GRPO baseline: 74.2%</li>
+                <li>Gemini 2.5 Pro: 71.6%</li>
+                <li>GPT-4o Audio: 62.5%</li>
+                <li><b>ADRPO (Ours): 76.0%</b></li>
+              </ul>
+            </div> -->
+
+            <!-- <div class="content has-text-centered">
+              <img src="./static/images/audio_reasoning_results.png" width="70%">
+              <p style="font-size: 0.9em; margin-top: 10px; color: #666;">
+                <b>Table: Multi-modal audio reasoning results on MMAU benchmark.</b>
+                ADRPO achieves the best performance across all categories (Sound,
+                Music, Speech), outperforming both baseline methods and larger
+                commercial models.
+              </p>
+            </div> -->
+
+            <div class="content has-text-justified">
+              <p>
+                <b>Category-wise Performance:</b>
+              </p>
+              <ul>
+                <li><b>Sound Understanding:</b> 81.98% (best, +9.61% over base model)</li>
+                <li><b>Music Understanding:</b> 70.06% (best)</li>
+                <li><b>Speech Understanding:</b> 75.98% (best, +6.91% over base model)</li>
+              </ul>
+              <p>
+                <b>Hyperparameter Robustness.</b> To assess ADRPO's practical
+                applicability in new domains, we conducted ablation studies on
+                advantage clipping ranges. All ADRPO configurations substantially
+                outperform GRPO with stable performance across settings. The
+                recommended 1xβ₀ achieves the best overall balance, while
+                performance variations across clipping ranges remain under 0.4%,
+                confirming robustness.
+              </p>
+              <p>
+                These results, combined with our text-to-image experiments and LLM
+                fine-tuning, demonstrate ADRPO's effectiveness across continuous
+                generation, discrete sequences, and multi-modal reasoning.
+                Qualitative analysis reveals that ADRPO enables superior
+                step-by-step reasoning on complex temporal and contextual tasks
+                compared to GRPO's premature convergence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section class="section" style="background-color: #f9f9f9;">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Key Findings</h2>
+            
+            <div class="content">
+              <div style="background-color: #e8f4f8; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 5px solid #3273dc;">
+                <h4><b>Finding 1: Superior Pareto Frontier</b></h4>
+                <p>ADRPO establishes a superior reward-diversity trade-off across all evaluation metrics, outperforming both offline methods (DPO, RAFT) and online methods with fixed regularization (ORW-CFM-W2).</p>
+              </div>
+
+              <div style="background-color: #f5e8f8; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 5px solid #9b59b6;">
+                <h4><b>Finding 2: Parameter Efficiency</b></h4>
+                <p>ADRPO enables remarkable parameter efficiency, allowing a 2B parameter model to consistently outperform substantially larger models (4.8B and 12B), demonstrating that optimization strategy can be more consequential than model scale.</p>
+              </div>
+
+              <div style="background-color: #fff3e0; padding: 20px; margin-bottom: 20px; border-radius: 10px; border-left: 5px solid #ff9800;">
+                <h4><b>Finding 3: Emergent Exploration Behavior</b></h4>
+                <p>ADRPO exhibits an emergent ability to intelligently navigate the exploration-exploitation landscape, actively increasing exploration to escape local optima—a sophisticated capability that emerges naturally from our advantage-guided mechanism.</p>
+              </div>
+
+              <div style="background-color: #e8f5e9; padding: 20px; border-radius: 10px; border-left: 5px solid #4caf50;">
+                <h4><b>Finding 4: Cross-Domain Applicability</b></h4>
+                <p>ADRPO demonstrates effectiveness across diverse domains and modalities: continuous generation (flow matching), discrete sequences (LLMs), and multi-modal reasoning (audio-visual understanding), offering a plug-and-play solution with minimal computational overhead.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="section">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-full-width">
+            <h2 class="title is-3">Conclusion</h2>
+            <div class="content has-text-justified">
+              <p>
+                The exploration-exploitation dilemma represents a critical challenge in generative model RL fine-tuning that fixed regularization approaches fail to address. ADRPO tackles this by dynamically adjusting regularization strength based on sample-specific advantage estimates—reducing constraints for high-value samples while strengthening them for poor ones.
+              </p>
+              <p>
+                Our experiments demonstrate ADRPO's effectiveness across diverse domains and modalities. In text-to-image generation, it enables a 2B parameter model to surpass much larger models. In LLM fine-tuning, it exhibits emergent ability to escape local optima. In multi-modal audio reasoning, it enables a 7B model to outperform substantially larger commercial systems.
+              </p>
+              <p>
+                ADRPO establishes a superior Pareto frontier in the reward-diversity trade-off across continuous generation, discrete sequences, and multi-modal reasoning tasks, confirming that sample-adaptive regularization offers a plug-and-play solution that generalizes across generative architectures with minimal computational overhead.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BibTeX -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@misc{fan2025adaptivedivergenceregularizedpolicy,
+      title={Adaptive Divergence Regularized Policy Optimization for Fine-tuning Generative Models}, 
+      author={Jiajun Fan and Tong Wei and Chaoran Cheng and Yuxin Chen and Ge Liu},
+      year={2025},
+      eprint={2510.18053},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2510.18053}, 
+}</code></pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="content has-text-centered">
+          <a class="icon-link" href="#">
+            <i class="fas fa-file-pdf"></i>
+          </a>
+          <a class="icon-link" href="#" class="external-link">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <div class="columns is-centered">
+          <div class="column is-8">
+            <div class="content">
+              <p>
+                This website is licensed under a <a rel="license"
+                  href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                  Commons Attribution-ShareAlike 4.0 International License</a>.
+              </p>
+              <p>
+                Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
